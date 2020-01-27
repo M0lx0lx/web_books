@@ -5,10 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+      count: 0,
+      images: []
   },
   mutations: {
+      push_img: (state,payload)=>{
+          state.images.push(payload);
+      }
   },
   actions: {
+
   },
   modules: {
   }
