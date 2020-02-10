@@ -1,5 +1,6 @@
 module.exports={
     insert: require("./insert"),
-    select: require("./select"),
-    delete: require("./delete"),
+    wb_select: require("./select"),
+    wb_delete: require("./delete"),
+    wb_update: require("./update"),
 }

@@ -5,23 +5,21 @@ var wb_delete = require('./delete');
 var schedule = require('node-schedule');
 var {schedule_info}= require('../tem_data');
 
-module.exports= function({user_code,file_name,original_name,file,png_zip,keep_days=0,create_date=new Date()},callback){
+module.exports= function({id,keep_days,last_update=new Date()},callback){
     db_connect(function(connection){
-        var  addSql = "INSERT INTO user_books(user_code,file_name,original_name,file,png_zip,keep_days,create_date) VALUES(?,?,?,?,?,?,?)";
-
-        // console.log('mysql时间格式：',moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
+        var  addSql = "update user_books set keep_days=?,last_update=? where id=?";
         var kd= keep_days?new Date(moment().add(keep_days, 'days')): null;
         if(keep_days === 'm'){
-            console.log('insert测试');
+            console.log('update测试');
             kd=new Date(moment().add(30, 'seconds'));
         }
-        connection.query(addSql,[user_code,file_name,original_name,file,png_zip,kd,create_date],function (err, result) {
+        connection.query(addSql,[kd,last_update,id],function (err, result) {
             if(err){
-                console.log('[INSERT ERROR] - ',err.message);
+                console.log('[delete ERROR] - ',err.message);
                 return;
             }
 
-            wb_select("user_code='"+user_code+"' and file_name='"+file_name+"'",function(v){
+            wb_select("id='"+id+"'",function(v){
                 var t=v[0];
                 var dt= schedule_info.delete_name(t.id,t.file_name)
                 if(dt){
@@ -36,6 +34,7 @@ module.exports= function({user_code,file_name,original_name,file,png_zip,keep_da
                 console.log('更新定时任务：',job)
 
             })
+
 
             if(callback){
                 callback(result);

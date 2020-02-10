@@ -34,8 +34,8 @@
         },
         methods: {
             afterRead(file,detail) {
-                console.log("file:",file);
-                console.log("detail:",detail);
+                // console.log("file:",file);
+                // console.log("detail:",detail);
                 // 此时可以自行将文件上传至服务器
                 if (file.file.type !== 'application/pdf') {
                     Toast('请上传 pdf 格式文件');
@@ -54,7 +54,6 @@
                         this.percent = completeProgress;
                     }
                 }).then(res=>{
-                    console.log('请求结果：',res);
                     Toast.success('文件读取成功');
                     this.progress=false;
                     this.changing=true;
@@ -71,8 +70,18 @@
                 });
             },
             get_images(s){
+                // this.$store.dispatch('get_book_images', {s:s,self: this}).then(v=>{
+                //     if(v.code ===404){
+                //         Notify({ type: 'danger', message: '未找到该资源' });
+                //         return
+                //     }
+                //     Toast.success(v.name);
+                //     this.changing=false;
+                //     // if(this.$route.query.s !== s){
+                //     //     this.$router.push({  query: { s }})
+                //     // }
+                // })
                 this.axios.get('http://192.168.0.4:8089/book', {params: {s},withCredentials: true}).then(res=>{
-                    console.log('请求结果：',res);
                     if(res.data.code ===202){
                         setTimeout(()=>this.get_images(s),2000)
                         return
@@ -86,7 +95,7 @@
                     if(this.$route.query.s !== s){
                         this.$router.push({  query: { s }})
                     }
-                    this.$store.commit('set_images', {images: res.data.images, name: res.data.name})
+                    this.$store.commit('set_images', {images: res.data.images, name: res.data.name, file_name: res.data.file_name})
 
                 }).catch((error)=>{
                     console.log(error);

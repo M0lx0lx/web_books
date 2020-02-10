@@ -1,4 +1,5 @@
 module.exports={
     pdfToPng: require("./pdfToPng"),
-    encryption: require("./encryption")
+    encryption: require("./encryption"),
+    getIp: require("./getInfo").getIp,
 }

@@ -1,5 +1,14 @@
 <template>
     <div>
+        <van-number-keyboard
+                :show="show_num"
+                theme="custom"
+                close-button-text="完成"
+                @blur="show_num = false"
+                @input="onInput"
+                @delete="onDelete"
+                @close="onClose"
+        />
         <div style="width: 100%;max-width: 660px;height:100%;margin: auto;">
             <div class="screen_abs"
                  style="background: #44454a;
@@ -15,24 +24,20 @@
                 <div style="margin-right: 10px;font-weight: bold;" >{{count?(current+1)+'/'+count:"0/0"}}</div>
             </div>
             <!--@click="show_num=true"-->
-            <van-number-keyboard
-                    :show="show_num"
-                    theme="custom"
-                    close-button-text="完成"
-                    @blur="show_num = false"
-                    @input="onInput"
-                    @delete="onDelete"
-                    @close="onClose"
-            />
-            <!--<button @click="test" style="margin-top: 40px">test</button>-->
             <img :src="images[current]" @click="()=>false" style="width: 100%;height:100%;transition: opacity .4s;margin: 40px 0;" />
             <div style="position: fixed;top: 0;left: 0;z-index: 1;width: 100%;height: 100%;background:rgba(0,0,0,0);" @click="()=>false" />
             <div class="screen_abs"
                  style="background: #44454a;
                     bottom: 0;">
-                <div class="botton_func" style="margin-right: 10px;">
-                    <!-- v-if="all_images.length"-->
-                    <i class="fa fa-history" style="width: 50px;" @click="to_maintain" />
+                <div class="botton_func" title="已有文件记录" style="margin-right: 10px;">
+                    <PopupRecord>
+                        <i class="fa fa-file-text" style="width: 50px;" />
+                    </PopupRecord>
+                </div>
+                <div class="botton_func" title="设置保存期限" style="margin-right: 10px;" v-if="all_images.length">
+                    <DialogKeepDays>
+                        <i class="fa fa-history" style="width: 50px;"/>
+                    </DialogKeepDays>
                 </div>
                 <div class="botton_func" style="margin-right: 10px;">
                     <div class="upload_box">
@@ -55,12 +60,16 @@
     import {mapState} from 'vuex'
     import { Overlay,NumberKeyboard,Toast } from 'vant';
     import UploadFile from "./UploadFile"
+    import PopupRecord from "./PopupRecord"
+    import DialogKeepDays from "./DialogKeepDays"
     export default {
         name: "Screen",
         components: {
             [Overlay.name]: Overlay,
             [NumberKeyboard.name]: NumberKeyboard,
-            UploadFile
+            UploadFile,
+            PopupRecord,
+            DialogKeepDays
         },
         props: {
             params: Object,
@@ -73,12 +82,12 @@
                 is_full: false,
                 percent: 0,
                 show_num: false,
-                page_number: ''
+                page_number: '',
+                list: [],
             }
         },
         watch: {
             current: function(n){
-                console.log('n:',n);
                 //提前1页加载
                 if(n>=this.images.length-2 && n<this.count-1 && this.count>this.images.length){
                     this.load_imgs(this.all_images,this.count,n+2,2);
@@ -89,7 +98,6 @@
                 this.current=0;
                 this.images=[];
                 this.load_imgs(n,n.length,this.current,2);
-                console.log('store:',this.$store)
             }
         },
         computed: {
@@ -99,20 +107,10 @@
             })
         },
         methods: {
-            to_maintain(){
-                this.axios.get('http://192.168.0.4:8089/maintain', {params: {file_name: this.book_name},withCredentials: true}).then(res=>{
-                    console.log('请求结果：',res);
-
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            },
             onClose(e){
-                console.log('onClose：',e)
                 this.current=this.page_number;
             },
             onInput(e){
-                console.log('onInput：',String(e))
                 this.page_number+=String(e);
                 var tem= Number(this.page_number);
                 if(tem>this.count){
@@ -143,7 +141,6 @@
                     if(typeof rfs != "undefined" && rfs) {
                         rfs.call(el);
                     };
-                    console.log('rfs:',rfs)
                     return;
                 }
                 //退出全屏
@@ -184,11 +181,9 @@
                     img.src=url;
                     img.onload= ()=>{
                         resolve(url);
-                        console.log('预加载成功')
                     }
                     img.onerror= ()=>{
                         reject();
-                        console.log('预加载出错')
                     }
                 })
             },
@@ -202,9 +197,13 @@
                         this.load_imgs(list,count,current,num);
                     }
                 })
+            },
+            init(){
+
             }
         },
         mounted(){
+
         }
     }
 </script>
@@ -250,9 +249,9 @@
         }
     }
     .updn{
-        width: 200px;
+        width: 150px;
         i{
-            width: 99px;
+            width: 74px;
         }
     }
 
