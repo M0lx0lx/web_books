@@ -46,7 +46,7 @@
                 let params = new FormData()
                 params.append('filename', file.file)
 
-                this.axios.post('http://192.168.0.4:8089/upload', params,{
+                this.axios.post('http://localhost:8089/upload', params,{
                     headers: { "Content-Type": "multipart/form-data" },
                     onUploadProgress: e => {
                         var completeProgress = ((e.loaded / e.total * 100) | 0) + "%";
@@ -81,7 +81,7 @@
                 //     //     this.$router.push({  query: { s }})
                 //     // }
                 // })
-                this.axios.get('http://192.168.0.4:8089/book', {params: {s},withCredentials: true}).then(res=>{
+                this.axios.get('http://localhost:8089/book', {params: {s},withCredentials: true}).then(res=>{
                     if(res.data.code ===202){
                         setTimeout(()=>this.get_images(s),2000)
                         return

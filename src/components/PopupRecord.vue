@@ -50,7 +50,7 @@
             to_reading(s){
                 this.show=false;
                 if(this.$route.query.s !== s){
-                    this.axios.get('http://192.168.0.4:8089/book', {params: {s},withCredentials: true}).then(res=>{
+                    this.axios.get('http://localhost:8089/book', {params: {s},withCredentials: true}).then(res=>{
                         if(res.data.code ===202){
                             setTimeout(()=>this.get_images(s),2000)
                             return
@@ -72,7 +72,7 @@
             },
             get_books(){
                 return new Promise((res,rej)=>{
-                    this.axios.get('http://192.168.0.4:8089/user_books', {withCredentials: true}).then(v=>{
+                    this.axios.get('http://localhost:8089/user_books', {withCredentials: true}).then(v=>{
                         this.list=v.data.data;
                         res(v.data.data);
                     }).catch((error)=>{

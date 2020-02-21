@@ -1,9 +1,11 @@
-# test_pro2
+# web_books
+
 ##技术选型
 * 前端
 ```angular2html
-    html/html5 + css/css3 + 
-    JavaScript + vue.js + 
+    html/html5 + 
+    css/css3 + Less + 
+    JavaScript + Vue.js + ES6 + 
     webpack + jest
 ``` 
 
@@ -13,54 +15,47 @@
     MySql
 ```
 
-## 用户功能需求分析
-> 1. 功能：多种电子书格式的阅读器
-> 2. 需求：便捷于纸质书的使用方式
+## 开发功能
 
-## 开发功能分析
 * 后端功能
-> 1. 常用格式电子书的识别与展示
-> 2. 电子书上传至服务器功能
+> 1. 常用格式电子书的识别与处理
+> 2. 电子书存储功能
 > 3. 在数据库记录电子书基本信息
 > 4. 在数据库记录用户的标签、笔记
+> 5. 定时器功能，清除数据库的过期数据
+
 * 前端功能
-> 1. 打开本地电子书功能
-> 2. 展示页数的模拟概览性翻阅功能
+> 1. 打开本地电子书，提交至后端处理
+> 2. 展示页数
 > 3. 翻页功能
-> 4. 标签功能，翻阅与页面同步展示
-> 5. 笔记功能，涂鸦式或输入文字
+> 4. 标签功能
+> 5. 笔记功能，涂鸦或输入文字
+> 6. 全屏
+> 6. 上传至数据库，设置保存期限
 
+##基本命令
 
-
-## Project setup
+### 安装依赖
 ```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
+npm install
 ```
 
-### Compiles and minifies for production
+### 运行开发环境
 ```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
+npm run serve
 ```
 
-### Run your end-to-end tests
+### 打包项目
 ```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
+npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 运行单元测试
+```
+npm run test:unit
+```
+
+### 运行端到端测试
+```
+npm run test:e2e
+```

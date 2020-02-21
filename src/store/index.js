@@ -19,7 +19,7 @@ export default new Vuex.Store({
   actions: {
       // get_book_images: ({ commit, state }, params)=>{
       //     return new Promise((req,res)=>{
-      //         Vue.prototype.axios.get('http://192.168.0.4:8089/book', {params: {s: params.s},withCredentials: true}).then(v=>{
+      //         Vue.prototype.axios.get('http://localhost:8089/book', {params: {s: params.s},withCredentials: true}).then(v=>{
       //             console.log('请求结果dd：',v);
       //             if(v.data.code ===202){
       //                 setTimeout(()=>this.get_book_images(s),2000)

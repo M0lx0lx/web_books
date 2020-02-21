@@ -43,7 +43,7 @@
         methods: {
             onShow(){
                 this.show=true;
-                this.axios.get('http://192.168.0.4:8089/user_books', {params: {file_name: this.file_name},withCredentials: true}).then(res=>{
+                this.axios.get('http://localhost:8089/user_books', {params: {file_name: this.file_name},withCredentials: true}).then(res=>{
                     if(res.data.data){
                         var b= new Date(res.data.data.keep_days);
                         this.keep_days=`${b.getFullYear()}-${b.getMonth()}-${b.getDate()}`
@@ -62,7 +62,7 @@
                         done();
                         return;
                     }
-                    this.axios.get('http://192.168.0.4:8089/maintain', {params: {original_name: this.book_name, keep_days: this.radio_val},withCredentials: true}).then(res=>{
+                    this.axios.get('http://localhost:8089/maintain', {params: {original_name: this.book_name, keep_days: this.radio_val},withCredentials: true}).then(res=>{
                         if(res.data.code === 200){
                             Toast.success('设置成功！');
                         } else{

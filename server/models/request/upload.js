@@ -92,7 +92,6 @@ module.exports= function(app){
                     if (err) {
                         return console.error(err);
                     }
-                    console.log('写入PDF：')
                 });
             })
 
